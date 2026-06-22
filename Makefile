@@ -8,7 +8,7 @@ api-%: DIRECTORY="./api"
 
 SUB_MAKE=$(MAKE) -C $(DIRECTORY)
 
-install: compose.override.yaml api pull start api-install front front-install ## Install the full stack (clone api & front)
+install: compose.override.yaml api front pull api-install front-install ## Install the full stack (clone api & front)
 
 ##
 ###--------------#
