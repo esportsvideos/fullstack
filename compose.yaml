@@ -1,0 +1,28 @@
+include:
+    -   path: "./api/compose.yaml"
+        project_directory: "./api"
+    -   path: "./front/compose.yaml"
+        project_directory: "./front"
+
+services:
+    traefik:
+        image: traefik:v3.6.11
+        command:
+            - "--api.insecure=true"
+            - "--providers.docker"
+            - "--providers.docker.exposedByDefault=false"
+            - "--entrypoints.web.address=:80"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.dashboard.rule=Host(`traefik.esv.localhost`)"
+            - "traefik.http.routers.dashboard.service=api@internal"
+            - "traefik.http.routers.dashboard.entrypoints=web"
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"
+        networks:
+            - esv
+
+networks:
+    esv:
+        driver: bridge
+        name: esv
